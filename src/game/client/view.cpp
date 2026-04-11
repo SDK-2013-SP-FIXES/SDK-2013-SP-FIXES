@@ -733,10 +733,10 @@ void CViewRender::SetUpViews()
 
 	//Find the offset our current FOV is from the default value
 	float fDefaultFov = default_fov.GetFloat();
-	float flFOVOffset = fDefaultFov - view.fov;
+	float flFOVOffset = view.fov / fDefaultFov;
 
 	//Adjust the viewmodel's FOV to move with any FOV offsets on the viewer's end
-	view.fovViewmodel = g_pClientMode->GetViewModelFOV() - flFOVOffset;
+	view.fovViewmodel = g_pClientMode->GetViewModelFOV() * flFOVOffset;
 
 	if ( UseVR() )
 	{

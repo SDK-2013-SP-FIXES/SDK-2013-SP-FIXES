@@ -540,6 +540,10 @@ int CNPC_BaseZombie::MeleeAttack1Conditions ( float flDot, float flDist )
 			{
 				CBasePlayer *pPlayer = ToBasePlayer( GetEnemy() );
 
+				// If a player is standing on this, always allow attack
+				if (pPlayer->GetGroundEntity() == this)
+					return COND_CAN_MELEE_ATTACK1;
+
 				Assert( pPlayer != NULL );
 
 				// Is the player carrying something?
@@ -587,8 +591,11 @@ int CNPC_BaseZombie::MeleeAttack1Conditions ( float flDot, float flDist )
 #ifdef HL2_EPISODIC
 
 		// If our trace was unobstructed but we were shooting 
-		if ( GetEnemy() && GetEnemy()->Classify() == CLASS_BULLSEYE )
-			return COND_CAN_MELEE_ATTACK1;
+		if (GetEnemy())
+		{
+			if (GetEnemy()->Classify() == CLASS_BULLSEYE || GetEnemy()->GetGroundEntity() == this)
+				return COND_CAN_MELEE_ATTACK1;
+		}
 
 #endif // HL2_EPISODIC
 
